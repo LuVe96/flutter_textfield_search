@@ -32,6 +32,8 @@ class TextFieldSearch extends StatefulWidget {
   /// The number of matched items that are viewable in results
   final int itemsInView;
 
+  final bool diableSearchStringComparison;
+
   /// Creates a TextFieldSearch for displaying selected elements and retrieving a selected element
   const TextFieldSearch(
       {Key? key,
@@ -44,7 +46,8 @@ class TextFieldSearch extends StatefulWidget {
       this.decoration,
       this.scrollbarDecoration,
       this.itemsInView = 3,
-      this.minStringLength = 2})
+      this.minStringLength = 2,
+      this.diableSearchStringComparison = false})
       : super(key: key);
 
   @override
@@ -124,14 +127,15 @@ class _TextFieldSearchState extends State<TextFieldSearch> {
               }
             }
 
-            if (containsSearchString) {
+            if (containsSearchString || widget.diableSearchStringComparison) {
               tempList.add(this.filteredList![i]);
             }
           } else {
             if (this
-                .filteredList![i]
-                .toLowerCase()
-                .contains(widget.controller.text.toLowerCase())) {
+                    .filteredList![i]
+                    .toLowerCase()
+                    .contains(widget.controller.text.toLowerCase()) ||
+                widget.diableSearchStringComparison) {
               // if there is a match, add to the temp list
               tempList.add(this.filteredList![i]);
             }
