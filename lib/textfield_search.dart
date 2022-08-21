@@ -110,12 +110,21 @@ class _TextFieldSearchState extends State<TextFieldSearch> {
         for (int i = 0; i < filteredList!.length; i++) {
           // lowercase the item and see if the item contains the string of text from the lowercase search
           if (widget.getSelectedValue != null) {
-            if (this
-                .filteredList![i]
-                .label
-                .toLowerCase()
-                .contains(widget.controller.text.toLowerCase())) {
-              // if there is a match, add to the temp list
+            bool containsSearchString = true;
+            var searchSnippets =
+                widget.controller.text.toLowerCase().split(" ");
+
+            for (var snippet in searchSnippets) {
+              if (!this
+                  .filteredList![i]
+                  .label
+                  .toLowerCase()
+                  .contains(snippet)) {
+                containsSearchString = false;
+              }
+            }
+
+            if (containsSearchString) {
               tempList.add(this.filteredList![i]);
             }
           } else {
